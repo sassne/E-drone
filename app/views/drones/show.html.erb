@@ -1,0 +1,45 @@
+<div class="flex h-screen bg-gray-100 font-sans text-gray-900">
+  <!-- Sidebar -->
+
+  <!-- Main Content -->
+  <main class="flex-1 overflow-y-auto p-8 space-y-10">
+    <!-- Dashboard Section -->
+    <section id="dashboard">
+      <h2 class="text-2xl font-bold mb-4">Statistiques de vol</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <% @drones.each do |drone| %>
+          <div class="bg-white p-6 rounded-2xl shadow">
+            <h3 class="text-lg font-semibold"><%= drone.nom %></h3>
+            <p class="text-sm text-gray-600">Nombre de vols :</p>
+            <div class="text-3xl font-bold text-red-600">
+              <%= drone.voles.count %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </section>
+
+    <!-- Voles Table -->
+    <section id="voles">
+      <h2 class="text-2xl font-bold mb-4">Liste des vols</h2>
+      <div class="overflow-x-auto bg-white rounded-2xl shadow">
+        <table class="min-w-full table-auto">
+          <thead class="align-middle bg-gray-200 text-sm text-left">
+        <tr class="text-red-900">
+              <th class="px-4 py-3">Date</th>
+              <th class="px-4 py-3">Drone</th>
+            </tr>
+          </thead>
+          <tbody class="text-sm divide-y divide-gray-100">
+            <% @voles.each do |vole| %>
+              <tr class="text-red-900">
+                <td class="px-4 py-3"><%= vole.date.strftime('%d/%m/%Y') %></td>
+                <td class="px-4 py-3"><%= vole.drone.nom %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>

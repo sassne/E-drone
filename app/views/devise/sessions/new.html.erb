@@ -1,0 +1,44 @@
+  <!-- Logo en haut -->
+  <div class="mb-6">
+    <%= image_tag "icon.png", alt: "Logo", class: "h-16 w-auto mx-auto" %>
+  </div>
+
+  <!-- Carte du formulaire -->
+  <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+    <h2 class="text-2xl font-bold text-center text-[#C8102E] mb-6">Connectez-vous ici</h2>
+
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), data: { turbo: false }, html: { class: 'w-full' }) do |f| %>
+      <!-- Email -->
+      <div class="mb-4">
+        <%= f.label :email, "Email", class: 'text-sm text-slate-600 font-medium block mb-1' %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "ex: email@exemple.com", class: "w-full border border-gray-300 rounded-lg py-3 px-4 text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#FFB200]" %>
+      </div>
+
+      <!-- Password -->
+      <div class="mb-4">
+        <div class="flex justify-between text-sm mb-1">
+          <%= f.label :password, "Mot de passe", class: 'text-slate-600 font-medium' %>
+          <%= link_to "Mot de passe oublié ?", new_password_path(resource_name), class: "text-[#C8102E] hover:underline" %>
+        </div>
+        <%= f.password_field :password, placeholder: "••••••••", class: "w-full border border-gray-300 rounded-lg py-3 px-4 text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#FFB200]" %>
+      </div>
+
+      <!-- Remember me -->
+      <% if devise_mapping.rememberable? %>
+        <div class="flex items-center mb-4">
+          <%= f.check_box :remember_me, class: "h-4 w-4 text-[#FFB200] focus:ring-[#FFB200] border-gray-300 rounded" %>
+          <%= f.label :remember_me, 'Se souvenir de moi', class: "ml-2 text-sm text-slate-700" %>
+        </div>
+      <% end %>
+
+      <!-- Submit -->
+      <div class="mt-6">
+        <%= f.submit "Se connecter", class: "w-full py-3 px-4 text-sm font-semibold rounded-lg text-white bg-[#C8102E] hover:bg-[#FFB200] transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FFB200]" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mt-6 text-sm text-slate-600">
+    Pas encore de compte ?
+    <%= link_to "Inscrivez-vous", new_registration_path(resource_name), class: "text-[#C8102E] font-semibold hover:underline" %>
+  </div>

@@ -1,0 +1,23 @@
+<div id="flash-messages" class="fixed top-4 right-4 z-50 w-full max-w-md">
+  <% flash.each do |type, message| %>
+    <% next if message.blank? %>
+    <%# Définition des couleurs et icônes selon le type %>
+    <% color, icon = case type.to_sym
+      when :notice, :success
+        ['bg-green-100 border-green-400 text-green-800', '✅']
+      when :alert, :error
+        ['bg-red-100 border-red-400 text-red-800', '❌']
+      when :warning
+        ['bg-yellow-100 border-yellow-400 text-yellow-800', '⚠️']
+      else
+        ['bg-blue-100 border-blue-400 text-blue-800', 'ℹ️']
+      end %>
+    <div class="flash-message border-l-4 p-4 mb-2 shadow flex items-center justify-between animate-fade-in <%= color %>" data-controller="flash" data-flash-target="message">
+      <span class="flex items-center gap-2">
+        <span><%= icon %></span>
+        <%= message %>
+      </span>
+      <button type="button" class="ml-4 text-xl font-bold focus:outline-none" data-action="click->flash#close">&times;</button>
+    </div>
+  <% end %>
+</div>

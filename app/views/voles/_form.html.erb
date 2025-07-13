@@ -1,0 +1,43 @@
+<%= form_with(model: [@drone, vole], class: "max-w-lg mx-auto bg-white rounded-2xl shadow-lg p-8") do |f| %>
+  <% if vole.errors.any? %>
+    <div class="rounded-sm border border-red-600 bg-red-50 px-5 py-4 mb-4">
+      <h2 class="text-lg font-bold text-red-700"><%= pluralize(vole.errors.count, "erreur") %> ont empêché l'enregistrement de ce vol :</h2>
+      <ul class="list-disc list-inside">
+        <% vole.errors.full_messages.each do |message| %>
+          <li class="text-red-600"><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :drone_id if @drone %>
+
+  <% unless @drone %>
+    <div class="my-4 field">
+      <%= f.label :drone_id, "Drone", class: "label text-sm text-slate-600 font-medium block mb-1" %>
+      <%= f.collection_select :drone_id, Drone.all, :id, :nom, {}, 
+          class: "input appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#FFB200]" %>
+    </div>
+  <% end %>
+
+  <div class="my-4 field">
+    <%= f.label :date, "Date", class: "label text-sm text-slate-600 font-medium block mb-1" %>
+    <%= f.datetime_field :date, class: "input appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#FFB200]" %>
+  </div>
+
+  <div class="my-4 field">
+    <%= f.label :duree, "Durée (en minutes)", class: "label text-sm text-slate-600 font-medium block mb-1" %>
+    <%= f.number_field :duree, min: 1, class: "input appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#FFB200]" %>
+  </div>
+
+  <div class="my-4 field">
+    <%= f.label :remarque, "Remarque", class: "label text-sm text-slate-600 font-medium block mb-1" %>
+    <%= f.text_area :remarque, rows: 4, class: "input appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#FFB200]" %>
+  </div>
+
+  <div class="actions mt-6 flex justify-end gap-4.5">
+    <%= link_to "Annuler", voles_path, class: "flex justify-center rounded border border-gray-300 py-2 px-6 font-medium text-slate-700 hover:bg-gray-100 transition" %>
+    
+    <%= f.submit "Enregistrer", class: "w-full py-3 px-4 text-sm font-semibold rounded-lg text-white bg-[#C8102E] hover:bg-[#FFB200] transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FFB200]" %>
+  </div>
+<% end %>

@@ -1,0 +1,33 @@
+<%= form_with(model: drone, class: "max-w-lg mx-auto bg-white rounded-2xl shadow-lg p-8") do |f| %>
+  <% if drone.errors.any? %>
+    <div class="rounded-sm border border-red-600 bg-red-50 px-5 py-4 mb-4">
+      <h2 class="text-lg font-bold text-red-700"><%= pluralize(drone.errors.count, "erreur") %> ont empêché l'enregistrement de ce drone :</h2>
+      <ul class="list-disc list-inside">
+        <% drone.errors.full_messages.each do |message| %>
+          <li class="text-red-600"><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-4 field">
+    <%= f.label :nom, "Nom", class: "label text-sm text-slate-600 font-medium block mb-1" %>
+    <%= f.text_field :nom, class: "input appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#FFB200]" %>
+  </div>
+
+  <div class="my-4 field">
+    <%= f.label :modele, "Modèle", class: "label text-sm text-slate-600 font-medium block mb-1" %>
+    <%= f.text_field :modele, class: "input appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#FFB200]" %>
+  </div>
+
+  <div class="my-4 field">
+    <%= f.label :numero_de_serie, "Numéro de série", class: "label text-sm text-slate-600 font-medium block mb-1" %>
+    <%= f.text_field :numero_de_serie, class: "input appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#FFB200]" %>
+  </div>
+
+  <div class="actions mt-6 flex justify-end gap-4.5">
+    <%= link_to "Annuler", drones_path, class: "flex justify-center rounded border border-gray-300 py-2 px-6 font-medium text-slate-700 hover:bg-gray-100 transition" %>
+    
+    <%= f.submit "Enregistrer", class: "w-full py-3 px-4 text-sm font-semibold rounded-lg text-white bg-[#C8102E] hover:bg-[#FFB200] transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FFB200]" %>
+  </div>
+<% end %>

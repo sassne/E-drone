@@ -1,0 +1,26 @@
+<h1 class="auth-title !my-4 text-center">Vérifier dans vos emails</h1>
+<%= form_with(model: @user, url: user_session_path(@user) , method: :post) do |f| %>
+  <p class="text-md  text-gray-500 mb-8 field">
+    Merci de vérifier votre boite de messagerie, un email contenant un code de verification vous a été envoyé
+    </b> <br>
+    Renseignez ce code ici.
+  </p>
+
+  <div class="mb-2 field">
+    <%= f.label :code, class: 'label' do %>
+      <span>Code envoyé a <b class="text-[#84C005]"> <%= @user.email %> </b>  </span>
+    <% end %>
+    <%= f.number_field :code, class:"text-center w-full border appearance-none border-gray-200 rounded-lg w-full !text-[#84C005] text-xl font-bold my-2" %>
+  </div>
+
+  <div class="actions mt-6">
+    <%= f.submit "Vérifier", class: "btn-primary w-full" %>
+  </div>
+
+  <div class="text-xs my-4 text-center text-gray-500">
+    <%= link_to  new_session_path(resource_name), class:"inline-flex justify-between font-bold text-xs text-[#84C005]" do %>
+      <%= render "shared/svg/back" %> 
+      Retour à la page de connexion 
+    <%end %>
+  </div>
+<% end %>

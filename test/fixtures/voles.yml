@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  drone: one
+  date: 2025-06-26 01:18:54
+  duree: 1
+  remarque: MyText
+
+two:
+  drone: two
+  date: 2025-06-26 01:18:54
+  duree: 1
+  remarque: MyText
