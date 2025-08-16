@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_26_001854) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_12_122000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -22,6 +22,27 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_26_001854) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "observations", force: :cascade do |t|
+    t.bigint "vole_id", null: false
+    t.string "borne", null: false
+    t.string "observation_type", null: false
+    t.text "remarque"
+    t.datetime "observed_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["vole_id"], name: "index_observations_on_vole_id"
+  end
+
+  create_table "pilots_voles", force: :cascade do |t|
+    t.bigint "vole_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_pilots_voles_on_user_id"
+    t.index ["vole_id", "user_id"], name: "index_pilots_voles_on_vole_id_and_user_id", unique: true
+    t.index ["vole_id"], name: "index_pilots_voles_on_vole_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -30,6 +51,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_26_001854) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -41,8 +63,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_26_001854) do
     t.text "remarque"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "land_at"
+    t.integer "status", default: 0, null: false
+    t.string "battery_type"
     t.index ["drone_id"], name: "index_voles_on_drone_id"
   end
 
+  add_foreign_key "observations", "voles"
+  add_foreign_key "pilots_voles", "users"
+  add_foreign_key "pilots_voles", "voles"
   add_foreign_key "voles", "drones"
 end

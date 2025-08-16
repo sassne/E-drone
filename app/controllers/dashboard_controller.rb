@@ -9,5 +9,14 @@ class DashboardController < ApplicationController
 
     @recent_vols = Vole.includes(:drone).order(date: :desc).limit(5)
     @drones = Drone.includes(:voles).order(created_at: :desc).limit(5)
+
+     @drone_stats = Drone.all.map do |drone|
+        vols = drone.voles
+        {
+          drone: drone,
+          total_vols: vols.count,
+          total_heures: vols.sum(:duree) / 60.0
+        }
+      end
   end
 end

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <%= wicked_pdf_stylesheet_link_tag "pdf" -%>
+    <%= wicked_pdf_javascript_include_tag "number_pages" %>
+  </head>
+
+  <body onload="number_pages()">
+    <div class="pdf-logo">
+      <div class="left">
+        <%= yield :logo_left %>       
+      </div>
+      <div class="right">
+        <%= image_tag wicked_pdf_asset_base64("icon.png") %>
+      </div>
+    </div>
+    <div id="content">
+      <%= yield %>
+    </div>
+  </body>
+</html>

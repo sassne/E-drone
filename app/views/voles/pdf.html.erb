@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Vol <%= @vole.id %></title>
+    <style>
+      body { font-family: Arial, sans-serif; }
+      .card { background: #fff; border-radius: 1rem; box-shadow: 0 2px 8px #eee; padding: 1rem; margin-bottom: 1rem; }
+      .header { color: #C8102E; font-weight: bold; }
+      .section-title { color: #333; margin-top: 1.5rem; font-size: 1.1rem; }
+    </style>
+  </head>
+  <body>
+    <h1 class="header">Détails du vol</h1>
+    <div class="card">
+      <p><strong>Drone:</strong> <%= @vole.drone.nom %></p>
+      <p><strong>Date:</strong> <%= l @vole.date.to_date, format: :long %></p>
+      <p><strong>Heure de décollage:</strong> <%= l @vole.created_at, format: :time %></p>
+      <p><strong>Heure d'atterrissage:</strong> <%= @vole.land_at ? l(@vole.land_at, format: :time) : '-' %></p>
+      <p><strong>Durée:</strong> <%= @vole.duree %> min</p>
+      <p><strong>Remarque:</strong> <%= @vole.remarque %></p>
+    </div>
+    <div class="section-title">Observations</div>
+    <% @vole.observations.each do |obs| %>
+      <div class="card">
+        <p><strong>Borne:</strong> <%= obs.borne %></p>
+        <p><strong>Type:</strong> <%= obs.observation_type %></p>
+        <p><strong>Remarque:</strong> <%= obs.remarque %></p>
+        <p><strong>Heure:</strong> <%= l obs.observed_at, format: :time %></p>
+      </div>
+    <% end %>
+  </body>
+</html>

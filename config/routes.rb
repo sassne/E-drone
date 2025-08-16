@@ -6,7 +6,16 @@ Rails.application.routes.draw do
     get "dashboard", to: "dashboard#index"
 
     resources :drones
-    resources :voles
+    resources :voles do
+      member do
+        patch :land
+        post :add_observation
+        get :export_pdf
+        get :export_excel
+        get :export_observations_pdf
+      end
+      resources :observations, only: [:index, :new, :create]
+    end
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <style>
+      /* === Général === */
+      body {
+        font-family: 'Arial', sans-serif;
+        color: #333;
+        font-size: 12px;
+        margin: 20px;
+        background-color: #fff;
+      }
+
+      /* === En-tête avec logo et titre === */
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 2px solid #C8102E;
+        padding-bottom: 15px;
+        margin-bottom: 25px;
+      }
+
+      .header .logo img {
+        height: 60px;
+      }
+
+      .header .title {
+        font-size: 28px;
+        font-weight: bold;
+        color: #C8102E;
+        flex: 1;
+        text-align: right;
+      }
+
+      /* === Titres de sections === */
+      .section-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 12px;
+        color: #C8102E;
+        border-left: 5px solid #C8102E;
+        padding-left: 12px;
+      }
+
+      /* === Table === */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+      }
+
+      table thead {
+        background-color: #C8102E;
+        color: white;
+      }
+
+          table th,
+      table td {
+        padding: 12px;
+        border: 1px solid #ccc;
+        text-align: left;
+        vertical-align: top;
+        font-weight: bold; /* ✅ met les données en gras */
+      }
+
+
+      table tbody tr:nth-child(even) {
+        background-color: #f7f7f7;
+      }
+
+      table tbody tr:hover {
+        background-color: #efefef;
+      }
+
+      /* === Badge de statut === */
+      .status-badge {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 10px;
+        font-size: 11px;
+        font-weight: bold;
+        color: white;
+      }
+
+      .status-badge.en_cours {
+        background-color: #65A30D;
+      }
+
+      .status-badge.termine {
+        background-color: #C8102E;
+      }
+
+      /* === Footer === */
+      .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        font-size: 10px;
+        color: #666;
+        text-align: center;
+        border-top: 1px solid #ccc;
+        padding-top: 5px;
+        background: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <% content_for :logo_left do %>
+      <%# Logo si besoin %>
+    <% end %>
+
+    <div class="header">
+      <div class="logo">
+        <%= image_tag wicked_pdf_asset_base64("icon.png") %>
+      </div>
+      <div class="title">
+        <%= title %>
+      </div>
+    </div>
+
+    <div class="section-title">Données exportées</div>
+
+    <table>
+      <thead>
+        <tr>
+          <% headers.each do |header| %>
+            <th><%= header %></th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% data.each do |item| %>
+          <tr>
+            <% headers.each do |header| %>
+              <td>
+                <% if header == "Statut" %>
+                  <% status_value = item[header] %>
+                  <span class="status-badge <%= status_value.to_s.parameterize.underscore %>"><%= status_value || "N/A" %></span>
+                <% else %>
+                  <%= item[header] || "N/A" %>
+                <% end %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <div class="footer">
+      Export généré le <%= Time.zone.today.strftime('%d/%m/%Y') %>
+    </div>
+  </body>
+</html>

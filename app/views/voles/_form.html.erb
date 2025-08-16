@@ -21,13 +21,25 @@
   <% end %>
 
   <div class="my-4 field">
-    <%= f.label :date, "Date", class: "label text-sm text-slate-600 font-medium block mb-1" %>
+    <%= f.label :date, "Date de décolage", class: "label text-sm text-slate-600 font-medium block mb-1" %>
     <%= f.datetime_field :date, class: "input appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#FFB200]" %>
   </div>
 
   <div class="my-4 field">
-    <%= f.label :duree, "Durée (en minutes)", class: "label text-sm text-slate-600 font-medium block mb-1" %>
-    <%= f.number_field :duree, min: 1, class: "input appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#FFB200]" %>
+    <%= f.label :battery_type, "Type de batterie", class: "label text-sm text-slate-600 font-medium block mb-1" %>
+    <%= f.select :battery_type, options_for_select(["A", "B", "C", "D"], vole.battery_type), {}, class: "input appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#FFB200]" %>
+  </div>
+
+  <div class="my-4 field">
+    <%= f.label :pilot_ids, "Pilotes", class: "label text-sm text-slate-600 font-medium block mb-1" %>
+    <div class="flex flex-wrap gap-2">
+      <% User.all.each do |user| %>
+        <label class="flex items-center gap-2">
+          <%= check_box_tag "vole[pilot_ids][]", user.id, vole.pilot_ids.include?(user.id), id: "vole_pilot_ids_#{user.id}" %>
+          <%= user.email %>
+        </label>
+      <% end %>
+    </div>
   </div>
 
   <div class="my-4 field">

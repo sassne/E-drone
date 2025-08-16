@@ -1,3 +1,4 @@
+gem 'draper'
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
@@ -65,3 +66,9 @@ group :test do
 end
 
 gem "devise", "~> 4.9"
+
+gem "wicked_pdf", "~> 2.8"
+
+gem "caxlsx", "~> 4.2"
+
+gem "wkhtmltopdf-binary", "~> 0.12.6"

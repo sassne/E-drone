@@ -1,20 +1,27 @@
-<div class="mt-5">
+ <div class="mt-5">
   <!-- Titre + bouton -->
   <div class="flex items-center justify-between mb-4">
     <h2 class="text-xl font-semibold text-slate-700">Liste des vols</h2>
     <%= link_to "Ajouter un vol", new_vole_path, class: "inline-block px-4 py-2 bg-[#C8102E] text-white text-sm rounded-lg hover:bg-[#FFB200] transition" %>
   </div>
 
+  <!-- Bloc d'exportation -->
+  <div class="flex gap-4 mt-6">
+  </div>
+
   <!-- Tableau avec ombre -->
-  <div class="overflow-x-auto bg-white rounded-2xl shadow">
+  <div class="max-w-7xl mx-auto p-4">
+    <div class="overflow-x-auto rounded-2xl shadow-sm border border-gray-200">
     <table class="min-w-full table-auto">
       <thead class="align-middle bg-gray-200 text-sm text-left">
         <tr class="text-red-900">
           <th class="px-4 py-3">Drone</th>
-          <th class="px-4 py-3">Date</th>
-          <th class="px-4 py-3">Heure</th>
-          <th class="px-4 py-3">Durée</th>
+          <th class="px-4 py-3">Décollé Le</th>
+          <th class="px-4 py-3">Durée du vol</th>
+          <th class="px-4 py-3">Type batterie</th>
+          <th class="px-4 py-3">Pilotes</th>
           <th class="px-4 py-3">Remarque</th>
+          <th class="px-4 py-3">Statut</th>
           <th class="px-4 py-3">Actions</th>
         </tr>
       </thead>
@@ -25,10 +32,17 @@
             <td class="px-4 py-3">
               <%= link_to vole.drone.nom, drone_path(vole.drone), class: "hover:text-primary" %>
             </td>
-            <td class="px-4 py-3"><%= l vole.date.to_date, format: :long %></td>
-            <td class="px-4 py-3"><%= l vole.date, format: :time %></td>
-            <td class="px-4 py-3"><%= pluralize(vole.duree, 'minute') %></td>
-            <td class="px-4 py-3"><%= vole.remarque %></td>
+            <td class="px-4 py-3"><%= l vole&.date&.to_date, format: :long %></td>
+            <td class="px-4 py-3"><%= pluralize(vole.duree_formatee, '') %></td>
+            <td class="px-4 py-3"><%= vole.battery_type %></td>
+            <td class="px-4 py-3"><%= vole.pilotes_details %></td>
+            <td class="px-4 py-3"><%= vole.decorate.remarque_details %></td>
+            <td class="px-4 py-3">
+              <% if vole.land_at.present? %>
+                <span class="text-green-600">Terminé</span>
+              <% else %>
+                <span class="text-red-600">En cours</span>
+              <% end %>          
             <td class="px-4 py-3">
               <div class="flex space-x-2">
                 <%= link_to vole_path(vole), class: "inline-block px-3 py-1 bg-[#FFB200] text-white text-sm rounded hover:bg-orange-400 transition" do %>
@@ -46,5 +60,6 @@
         <% end %>
       </tbody>
     </table>
+    </div>
   </div>
 </div>

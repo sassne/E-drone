@@ -1,0 +1,52 @@
+<%# Vue show pour un Vole %>
+<div class="flex justify-end mb-4">
+  <% unless @vole.land_at.present? %>
+    <%= button_to 'Terminer', land_vole_path(@vole), method: :patch, class: 'bg-[#FFB200] text-white rounded-2xl px-4 py-2 font-bold' %>
+  <% else %>
+      <span class="bg-green-200 text-slate-600 rounded-2xl px-4 py-2">Vol terminé à <%= @vole.land_at.strftime('%H:%M') %> (Durée: <%= @vole.duree_formatee %> min)</span>
+  <% end %>
+</div>
+<%# ... Affichage des détails du vol ... %>
+<div class="mb-6">
+  <%= @vole.pilotes_details %>
+  <%= @vole.remarque_details %>
+</div>
+<div class="mt-8">
+  <div class="flex items-center justify-between mb-4">
+    <h3 class="text-xl font-semibold text-slate-700">Observations</h3>
+    <div class="flex gap-4 mt-6 p-4">
+  <%= link_to 'Exporter les observations en PDF', export_observations_pdf_vole_path(@vole, format: :pdf), class: 'bg-[#C8102E] text-white rounded-2xl px-4 py-2 font-bold' %>
+  <%= link_to 'Exporter en Excel', export_excel_vole_path(@vole), class: 'bg-[#FFB200] text-white rounded-2xl px-4 py-2 font-bold' %>
+   <%= link_to "Ajouter une observation", new_vole_observation_path(@vole), class: 'bg-[#C8102E] text-white rounded-2xl px-4 py-2 font-bold'%>
+</div>
+  </div>
+  <% if @vole.observations.any? %>
+    <div class="max-w-7xl mx-auto p-4">
+    <div class="overflow-x-auto bg-white rounded-2xl shadow">
+      <table class="min-w-full table-auto">
+        <thead class="align-middle bg-gray-200 text-sm text-left">
+          <tr class="text-red-900">
+            <th class="px-4 py-3">Borne</th>
+            <th class="px-4 py-3">Type</th>
+            <th class="px-4 py-3">Remarque</th>
+            <th class="px-4 py-3">Heure</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y">
+          <% @vole.observations.each do |obs| %>
+            <tr class="text-slate-700 border-b border-gray-300 hover:text-orange-500">
+              <td class="px-4 py-3"><%= obs.borne %></td>
+              <td class="px-4 py-3"><%= obs.observation_type %></td>
+              <td class="px-4 py-3"><%= obs.remarque %></td>
+              <td class="px-4 py-3"><%= l obs.observed_at, format: :time %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+   </div>
+  <% else %>
+    <div class="text-slate-500 italic">Aucune observation pour ce vol.</div>
+  <% end %>
+</div>
+

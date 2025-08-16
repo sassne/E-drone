@@ -42,3 +42,25 @@
     <%# Ajoute ici une 3e carte si tu veux équilibrer visuellement %>
   </div>
 </div>
+
+<!-- Cards par drone -->
+<div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
+  <% @drone_stats.each do |stat| %>
+    <div class="bg-white p-6 rounded-2xl shadow">
+      <div class="flex items-center mb-4">
+        <div class="h-12 w-12 flex items-center justify-center rounded-full bg-[#C8102E] text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75l8.954 4.477c.637.319 1.4.319 2.037 0l8.954-4.477M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75m-19.5 0v10.5A2.25 2.25 0 004.5 19.5zm0-12.75A2.25 2.25 0 016.75 4.5h10.5A2.25 2.25 0 0120.25 6.75"/>
+          </svg>
+        </div>
+        <h3 class="ml-4 text-lg font-semibold text-slate-700"><%= stat[:drone].nom %></h3>
+      </div>
+      <div class="text-slate-600 mb-2">
+        <span class="font-bold text-[#FFB200]"><%= stat[:total_vols] %></span> vols réalisés
+      </div>
+      <div class="text-slate-600">
+        <span class="font-bold text-[#C8102E]"><%= stat[:total_heures].round(2) %></span> heures de vol
+      </div>
+    </div>
+  <% end %>
+</div>
