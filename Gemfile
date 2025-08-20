@@ -72,3 +72,11 @@ gem "wicked_pdf", "~> 2.8"
 gem "caxlsx", "~> 4.2"
 
 gem "wkhtmltopdf-binary", "~> 0.12.6"
+
+gem "pundit", "~> 2.5"
+
+gem "chartkick", "~> 5.2"
+
+gem "groupdate", "~> 6.7"
+
+gem "pg_search", "~> 2.3"

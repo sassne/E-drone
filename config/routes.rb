@@ -14,8 +14,36 @@ Rails.application.routes.draw do
         get :export_excel
         get :export_observations_pdf
       end
-      resources :observations, only: [:index, :new, :create]
+      resources :observations, only: [ :index, :new, :create ]
     end
+  end
+
+  namespace :admin do
+    resources :users do
+      collection do
+        get :export_excel
+        get :export_pdf
+      end
+    end
+    resources :drones do
+      collection do
+        get :export_excel
+        get :export_pdf
+      end
+    end
+    resources :voles do
+      collection do
+        get :export_excel
+        get :export_pdf
+      end
+    end
+    resources :observations do
+      collection do
+        get :export_excel
+        get :export_pdf
+      end
+    end
+    get "dashboard", to: "dashboard#index"
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

@@ -28,6 +28,58 @@ class ExportDataTableToPdfService
     )
   end
 
+  def self.export_drones(drones)
+    headers = [ "Nom", "Modèle", "Numéro de série", "Total vols" ]
+    data = drones.map do |drone|
+      {
+        "Nom" => drone.nom,
+        "Modèle" => drone.modele,
+        "Numéro de série" => drone.numero_de_serie,
+        "Total vols" => drone.voles.count
+      }
+    end
+    title = "Liste des drones"
+    WickedPdf.new.pdf_from_string(
+      ActionController::Base.new.render_to_string(
+        template: TEMPLATE,
+        layout: LAYOUT,
+        locals: {
+          title: title,
+          headers: headers,
+          data: data,
+          account_logo_url: nil
+        }
+      ),
+      orientation: "Landscape"
+    )
+  end
+
+  def self.export_observations(observations)
+    headers = [ "Vol", "Drone", "Remarque", "Date" ]
+    data = observations.map do |obs|
+      {
+        "Vol" => obs.vole&.id,
+        "Drone" => obs.vole.drone.nom,
+        "Remarque" => obs.remarque,
+        "Date" => obs.observed_at
+      }
+    end
+    title = "Liste des observations"
+    WickedPdf.new.pdf_from_string(
+      ActionController::Base.new.render_to_string(
+        template: TEMPLATE,
+        layout: LAYOUT,
+        locals: {
+          title: title,
+          headers: headers,
+          data: data,
+          account_logo_url: nil
+        }
+      ),
+      orientation: "Landscape"
+    )
+  end
+
   def self.export_observations_pdf(vole)
      headers = [ "Heure", "Type", "Borne",  "Remarque" ]
     data = vole.observations.map do |obs|

@@ -1,0 +1,40 @@
+<%= form_with(model: [:admin, vole], local: true) do |form| %>
+  <% if vole.errors.any? %>
+    <div class="alert alert-danger">
+      <ul>
+        <% vole.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+
+  <div class="mb-3">
+    <%= form.label :user_ids, 'Pilotes participants' %>
+    <%= form.collection_select :user_ids, User.all, :id, :email, { prompt: 'Sélectionner les pilotes', multiple: true }, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :battery_type, 'Type de batterie' %>
+    <%= form.text_field :battery_type, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :date, 'Date du vol' %>
+    <%= form.date_field :date, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :duration, 'Durée' %>
+    <%= form.text_field :duration, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :status, 'Statut' %>
+    <%= form.select :status, [['Prévu', 'prévu'], ['En cours', 'en_cours'], ['Terminé', 'terminé']], {}, class: 'form-control' %>
+  </div>
+
+  <%= form.submit class: 'btn btn-success' %>
+<% end %>

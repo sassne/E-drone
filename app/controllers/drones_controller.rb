@@ -1,9 +1,15 @@
+
 class DronesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_drone, only: [ :show, :edit, :update, :destroy ]
 
   def index
-    @drones = Drone.all.includes(:voles)
+    @filters = params.slice(:start_date, :end_date, :drone_name)
+    @drones = Drone.filter_by(@filters).includes(:voles)
+    respond_to do |format|
+      format.html
+      format.turbo_stream
+    end
   end
 
   def show

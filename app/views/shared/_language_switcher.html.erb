@@ -1,0 +1,9 @@
+<div class="inline-block">
+  <%= form_with url: url_for, method: :get, local: true, html: { class: 'inline' } do %>
+    <select name="locale" onchange="this.form.submit()" class="rounded border-gray-300 px-2 py-1 text-sm">
+      <option value="fr" <%= 'selected' if I18n.locale.to_s == 'fr' %>><%= t('french') %></option>
+      <option value="en" <%= 'selected' if I18n.locale.to_s == 'en' %>><%= t('english') %></option>
+      <option value="zh" <%= 'selected' if I18n.locale.to_s == 'zh' %>><%= t('chinese') %></option>
+    </select>
+  <% end %>
+</div>

@@ -32,3 +32,11 @@ en:
   time:
     formats:
       time: "%H:%M"
+  export: "Export"
+  drones: "Drones"
+  voles: "Flights"
+  observations: "Observations"
+  change_language: "Change language"
+  french: "French"
+  english: "English"
+  chinese: "Chinese"

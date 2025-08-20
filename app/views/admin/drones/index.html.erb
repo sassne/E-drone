@@ -1,0 +1,101 @@
+
+<div class="relative">
+  <div class="absolute inset-0 -z-10 bg-gradient-to-tr from-[#FFB200]/20 via-white to-[#C8102E]/10 animate-gradient-x"></div>
+  <div class="flex items-center justify-between mb-8">
+    <div class="flex items-center gap-4">
+      <svg class="w-10 h-10 text-[#C8102E] animate-bounce" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>
+      <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Liste des drones</h2>
+    </div>
+    <div class="flex gap-2">
+      <%= link_to "Exporter Excel", export_excel_admin_drones_path(format: :xlsx), class: "inline-block px-4 py-2 bg-[#FFB200] text-white text-sm rounded-lg font-bold shadow hover:bg-[#C8102E] hover:text-[#FFB200] transition", target: "_blank" %>
+      <%= link_to "Exporter PDF", export_pdf_admin_drones_path(format: :pdf), class: "inline-block px-4 py-2 bg-[#C8102E] text-white text-sm rounded-lg font-bold shadow hover:bg-[#FFB200] hover:text-[#C8102E] transition", target: "_blank" %>
+      <%= link_to "Ajouter un drone", new_admin_drone_path, class: "inline-block px-6 py-3 bg-[#C8102E] text-white text-base rounded-xl font-bold shadow hover:bg-[#FFB200] hover:text-[#C8102E] transition" %>
+    </div>
+  </div>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+    <div class="bg-white rounded-2xl shadow p-4 flex flex-col items-center group hover:shadow-2xl transition">
+      <div class="text-[#C8102E] text-3xl font-extrabold"><%= @drones.count %></div>
+      <div class="text-xs text-slate-600">Total drones</div>
+    </div>
+    <div class="bg-white rounded-2xl shadow p-4 flex flex-col items-center group hover:shadow-2xl transition">
+      <div class="text-[#FFB200] text-3xl font-extrabold"><%= @drones.sum { |d| d.voles.count } %></div>
+      <div class="text-xs text-slate-600">Total vols</div>
+    </div>
+    <div class="bg-white rounded-2xl shadow p-4 flex flex-col items-center group hover:shadow-2xl transition">
+      <div class="text-[#C8102E] text-3xl font-extrabold"><%= @drones.uniq { |d| d.modele }.count %></div>
+      <div class="text-xs text-slate-600">Modèles uniques</div>
+    </div>
+    <div class="bg-white rounded-2xl shadow p-4 flex flex-col items-center group hover:shadow-2xl transition">
+      <div class="text-[#FFB200] text-3xl font-extrabold"><%= @drones.uniq { |d| d.numero_de_serie }.count %></div>
+      <div class="text-xs text-slate-600">Numéros de série uniques</div>
+    </div>
+  </div>
+  <div class="max-w-7xl mx-auto p-4">
+    <%= turbo_frame_tag "filters" do %>
+      <%= form_with url: admin_drones_path, method: :get, data: { turbo_frame: "drones_list" }, class: "w-full flex flex-row gap-4 mb-6 items-end" do |f| %>
+        <div class="my-0 field w-1/4">
+          <%= f.label :start_date, "Date de début", class: "label text-sm text-slate-600 font-medium block mb-1" %>
+          <%= f.date_field :start_date, value: params[:start_date], class: "input appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#FFB200]" %>
+        </div>
+        <div class="my-0 field w-1/4">
+          <%= f.label :end_date, "Date de fin", class: "label text-sm text-slate-600 font-medium block mb-1" %>
+          <%= f.date_field :end_date, value: params[:end_date], class: "input appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#FFB200]" %>
+        </div>
+        <div class="my-0 field w-1/4">
+          <%= f.label :drone_name, "Nom du drone", class: "label text-sm text-slate-600 font-medium block mb-1" %>
+          <%= f.text_field :drone_name, value: params[:drone_name], class: "input appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#FFB200]" %>
+        </div>
+        <div class="flex flex-col justify-end w-1/4">
+          <%= f.submit "Filtrer", class: "w-full py-3 px-4 text-sm font-semibold rounded-lg text-white bg-[#C8102E] hover:bg-[#FFB200] transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FFB200]" %>
+        </div>
+      <% end %>
+    <% end %>
+    <div class="overflow-x-auto rounded-2xl shadow-lg border border-gray-200">
+      <table class="min-w-full table-auto" id="drones-table">
+        <thead class="align-middle bg-gray-200 text-sm text-left">
+          <tr class="text-red-900">
+            <th class="px-4 py-3">Nom</th>
+            <th class="px-4 py-3">Modèle</th>
+            <th class="px-4 py-3">Numéro de série</th>
+            <th class="px-4 py-3">Vols</th> 
+            <th class="px-4 py-3">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y">
+          <% @drones.each do |drone| %>
+            <tr class="text-slate-700 border-b border-gray-300 hover:text-[#FFB200] hover:bg-[#FFF7E6] transition">
+              <td class="px-4 py-3 font-semibold"><%= drone.nom %></td>
+              <td class="px-4 py-3"><%= drone.modele %></td>
+              <td class="px-4 py-3"><%= drone.numero_de_serie %></td>
+              <td class="px-4 py-3"><%= drone.voles.count %></td>
+              <td class="px-3 py-2">
+                <div class="flex space-x-2">
+                  <%= link_to admin_drone_path(drone), class: "inline-block px-4 py-2 bg-[#FFB200] text-white text-sm rounded-lg hover:bg-[#C8102E] transition font-bold" do %>
+                    Voir
+                  <% end %>
+                  <%= link_to edit_admin_drone_path(drone), class: "inline-block px-4 py-2 bg-[#C8102E] text-white text-sm rounded-lg hover:bg-[#FFB200] transition font-bold" do %>
+                    Modifier
+                  <% end %>
+                  <%= button_to admin_drone_path(drone), method: :delete, data: { turbo_confirm: "Êtes-vous sûr de vouloir supprimer ce drone ?" }, class: "inline-block px-4 py-2 bg-red-100 text-[#C8102E] text-sm rounded-lg hover:bg-[#FFB200] transition font-bold" do %>
+                    Supprimer
+                  <% end %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<style>
+@keyframes gradient-x {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.animate-gradient-x {
+  background-size: 200% 200%;
+  animation: gradient-x 8s ease-in-out infinite;
+}
+</style>

@@ -4,7 +4,8 @@ class VolesController < ApplicationController
   before_action :set_drone, only: [ :new, :create ]
 
   def index
-    @voles = Vole.includes(:drone).recent_first.map(&:decorate)
+    @filters = params.slice(:start_date, :end_date, :drone_name)
+    @voles = Vole.filter_by(@filters).includes(:drone).recent_first.map(&:decorate)
   end
 
   def show

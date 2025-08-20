@@ -1,10 +1,33 @@
-<div class="mt-8">
-  <h2 class="text-xl font-semibold text-slate-700 mb-4">Observations du vol</h2>
-  <div class="flex justify-end mb-4">
-    <%= link_to "Ajouter une observation", new_vole_observation_path(@vole), class: "inline-block px-4 py-2 bg-[#C8102E] text-white text-sm rounded-lg hover:bg-[#FFB200] transition" %>
+
+<div class="relative">
+  <div class="absolute inset-0 -z-10 bg-gradient-to-tr from-[#FFB200]/20 via-white to-[#C8102E]/10 animate-gradient-x"></div>
+  <div class="flex items-center justify-between mb-8">
+    <div class="flex items-center gap-4">
+      <svg class="w-10 h-10 text-[#C8102E] animate-bounce" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>
+      <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Observations du vol</h2>
+    </div>
+    <%= link_to "Ajouter une observation", new_vole_observation_path(@vole), class: "inline-block px-6 py-3 bg-[#C8102E] text-white text-base rounded-xl font-bold shadow hover:bg-[#FFB200] hover:text-[#C8102E] transition" %>
   </div>
   <% if @observations.any? %>
-    <div class="overflow-x-auto bg-white rounded-2xl shadow">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div class="bg-white rounded-2xl shadow p-4 flex flex-col items-center group hover:shadow-2xl transition">
+        <div class="text-[#C8102E] text-3xl font-extrabold"><%= @observations.count %></div>
+        <div class="text-xs text-slate-600">Total observations</div>
+      </div>
+      <div class="bg-white rounded-2xl shadow p-4 flex flex-col items-center group hover:shadow-2xl transition">
+        <div class="text-[#FFB200] text-3xl font-extrabold"><%= @observations.uniq { |o| o.borne }.count %></div>
+        <div class="text-xs text-slate-600">Bornes différentes</div>
+      </div>
+      <div class="bg-white rounded-2xl shadow p-4 flex flex-col items-center group hover:shadow-2xl transition">
+        <div class="text-[#C8102E] text-3xl font-extrabold"><%= @observations.uniq { |o| o.observation_type }.count %></div>
+        <div class="text-xs text-slate-600">Types différents</div>
+      </div>
+      <div class="bg-white rounded-2xl shadow p-4 flex flex-col items-center group hover:shadow-2xl transition">
+        <div class="text-[#FFB200] text-3xl font-extrabold"><%= @observations.select { |o| o.remarque.present? }.count %></div>
+        <div class="text-xs text-slate-600">Avec remarque</div>
+      </div>
+    </div>
+    <div class="overflow-x-auto rounded-2xl shadow-lg border border-gray-200">
       <table class="min-w-full table-auto">
         <thead class="align-middle bg-gray-200 text-sm text-left">
           <tr class="text-red-900">
@@ -16,8 +39,8 @@
         </thead>
         <tbody class="bg-white divide-y">
           <% @observations.each do |obs| %>
-            <tr class="text-slate-700 border-b border-gray-300 hover:text-orange-500">
-              <td class="px-4 py-3"><%= obs.borne %></td>
+            <tr class="text-slate-700 border-b border-gray-300 hover:text-[#FFB200] hover:bg-[#FFF7E6] transition">
+              <td class="px-4 py-3 font-semibold"><%= obs.borne %></td>
               <td class="px-4 py-3"><%= obs.observation_type %></td>
               <td class="px-4 py-3"><%= obs.remarque %></td>
               <td class="px-4 py-3"><%= l obs.observed_at, format: :time %></td>
@@ -30,3 +53,14 @@
     <div class="text-slate-500 italic">Aucune observation pour ce vol.</div>
   <% end %>
 </div>
+
+<style>
+@keyframes gradient-x {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.animate-gradient-x {
+  background-size: 200% 200%;
+  animation: gradient-x 8s ease-in-out infinite;
+}
+</style>

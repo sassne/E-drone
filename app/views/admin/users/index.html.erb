@@ -1,0 +1,71 @@
+
+<div class="relative">
+  <div class="absolute inset-0 -z-10 bg-gradient-to-tr from-[#C8102E]/10 via-white to-[#FFB200]/20 animate-gradient-x"></div>
+  <div class="flex items-center justify-between mb-8">
+    <div class="flex items-center gap-4">
+      <svg class="w-10 h-10 text-[#FFB200] animate-bounce" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>
+      <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Liste des utilisateurs</h2>
+    </div>
+    <%= link_to "Ajouter un pilote", new_admin_user_path, class: "inline-block px-6 py-3 bg-[#C8102E] text-white text-base rounded-xl font-bold shadow hover:bg-[#FFB200] hover:text-[#C8102E] transition" %>
+  </div>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+    <div class="bg-white rounded-2xl shadow p-4 flex flex-col items-center group hover:shadow-2xl transition">
+      <div class="text-[#C8102E] text-3xl font-extrabold"><%= @users.count %></div>
+      <div class="text-xs text-slate-600">Total utilisateurs</div>
+    </div>
+    <div class="bg-white rounded-2xl shadow p-4 flex flex-col items-center group hover:shadow-2xl transition">
+      <div class="text-[#FFB200] text-3xl font-extrabold"><%= @users.select { |u| u.roles.include?("pilote") }.count %></div>
+      <div class="text-xs text-slate-600">Pilotes</div>
+    </div>
+    <div class="bg-white rounded-2xl shadow p-4 flex flex-col items-center group hover:shadow-2xl transition">
+      <div class="text-[#C8102E] text-3xl font-extrabold"><%= @users.select { |u| u.roles.include?("admin") }.count %></div>
+      <div class="text-xs text-slate-600">Admins</div>
+    </div>
+    <div class="bg-white rounded-2xl shadow p-4 flex flex-col items-center group hover:shadow-2xl transition">
+      <div class="text-[#FFB200] text-3xl font-extrabold"><%= @users.select { |u| u.roles.include?("super_admin") }.count %></div>
+      <div class="text-xs text-slate-600">Super Admins</div>
+    </div>
+  </div>
+  <div class="max-w-7xl mx-auto p-4">
+    <div class="overflow-x-auto rounded-2xl shadow-lg border border-gray-200">
+      <table class="min-w-full table-auto" id="users-table">
+        <thead class="align-middle bg-gray-200 text-sm text-left">
+          <tr class="text-red-900">
+            <th class="px-4 py-3">Email</th>
+            <th class="px-4 py-3">Rôles</th>
+            <th class="px-4 py-3">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y">
+          <% @users.each do |user| %>
+            <tr class="text-slate-700 border-b border-gray-300 hover:text-[#FFB200] hover:bg-[#FFF7E6] transition">
+              <td class="px-4 py-3 font-semibold"><%= user.email %></td>
+              <td class="px-4 py-3"><%= user.roles.join(', ') %></td>
+              <td class="px-3 py-2">
+                <div class="flex space-x-2">
+                  <%= link_to edit_admin_user_path(user), class: "inline-block px-4 py-2 bg-[#C8102E] text-white text-sm rounded-lg hover:bg-[#FFB200] transition font-bold" do %>
+                    Modifier
+                  <% end %>
+                  <%= button_to admin_user_path(user), method: :delete, data: { turbo_confirm: "Êtes-vous sûr de vouloir supprimer cet utilisateur ?" }, class: "inline-block px-4 py-2 bg-red-100 text-[#C8102E] text-sm rounded-lg hover:bg-[#FFB200] transition font-bold" do %>
+                    Supprimer
+                  <% end %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<style>
+@keyframes gradient-x {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.animate-gradient-x {
+  background-size: 200% 200%;
+  animation: gradient-x 8s ease-in-out infinite;
+}
+</style>

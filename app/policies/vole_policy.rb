@@ -1,0 +1,12 @@
+require_relative "admin_policy_helper"
+class VolePolicy < ApplicationPolicy
+  include AdminPolicyHelper
+  def index?; admin_or_super_admin?; end
+  def show?; admin_or_super_admin?; end
+  def create?; admin_or_super_admin?; end
+  def update?; admin_or_super_admin?; end
+  def destroy?; admin_or_super_admin?; end
+
+  def export_pdf?; index?; end
+  def export_excel?; index?; end
+end

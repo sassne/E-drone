@@ -1,0 +1,33 @@
+<%= form_with(model: [:admin, observation], local: true) do |form| %>
+  <% if observation.errors.any? %>
+    <div class="alert alert-danger">
+      <ul>
+        <% observation.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :vole_id, 'Vol' %>
+    <%= form.collection_select :vole_id, Vole.all, :id, :id, { prompt: 'Sélectionner un vol' }, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :user_id, 'Pilote' %>
+    <%= form.collection_select :user_id, User.all, :id, :email, { prompt: 'Sélectionner un pilote' }, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :remarque, 'Remarque' %>
+    <%= form.text_area :remarque, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :observed_at, 'Date' %>
+    <%= form.datetime_select :observed_at, class: 'form-control' %>
+  </div>
+
+  <%= form.submit class: 'btn btn-success' %>
+<% end %>

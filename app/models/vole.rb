@@ -1,7 +1,9 @@
+
 class Vole < ApplicationRecord
+  include Filterable
   belongs_to :drone
   has_many :observations, dependent: :destroy
-    validates :date, presence: true
+  validates :date, presence: true
 
   has_and_belongs_to_many :pilots, class_name: "User", join_table: "pilots_voles"
 

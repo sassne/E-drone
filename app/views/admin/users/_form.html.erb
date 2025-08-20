@@ -1,0 +1,44 @@
+<%= form_with(model: [:admin, user], class: "max-w-lg mx-auto bg-white rounded-2xl shadow-lg p-8") do |f| %>
+  <% if user.errors.any? %>
+    <div class="rounded-sm border border-red-600 bg-red-50 px-5 py-4 mb-4">
+      <h2 class="text-lg font-bold text-red-700"><%= pluralize(user.errors.count, "erreur") %> ont empêché l'enregistrement de ce pilote :</h2>
+      <ul class="list-disc list-inside">
+        <% user.errors.full_messages.each do |message| %>
+          <li class="text-red-600"><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-4 field">
+    <%= f.label :email, "Email", class: "label text-sm text-slate-600 font-medium block mb-1" %>
+    <%= f.email_field :email, class: "input appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#FFB200]" %>
+  </div>
+
+  <div class="my-4 field">
+    <%= f.label :password, "Mot de passe", class: "label text-sm text-slate-600 font-medium block mb-1" %>
+    <%= f.password_field :password, class: "input appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#FFB200]", autocomplete: 'new-password' %>
+  </div>
+
+  <div class="my-4 field">
+    <%= f.label :password_confirmation, "Confirmation du mot de passe", class: "label text-sm text-slate-600 font-medium block mb-1" %>
+    <%= f.password_field :password_confirmation, class: "input appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#FFB200]", autocomplete: 'new-password' %>
+  </div>
+
+  <div class="my-4 field">
+    <%= f.label :roles, 'Rôles', class: "label text-sm text-slate-600 font-medium block mb-1" %><br>
+    <div class="flex flex-wrap gap-3">
+      <% User::ROLES.each do |role| %>
+        <label class="inline-flex items-center">
+          <%= check_box_tag 'user[roles][]', role, user.roles.include?(role), id: "user_roles_#{role}", class: "rounded border-gray-300 text-[#C8102E] focus:ring-[#FFB200]" %>
+          <span class="ml-2 text-slate-700"><%= role.capitalize %></span>
+        </label>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="actions mt-6 flex justify-end gap-4.5">
+    <%= link_to "Annuler", admin_users_path, class: "flex justify-center rounded border border-gray-300 py-2 px-6 font-medium text-slate-700 hover:bg-gray-100 transition" %>
+    <%= f.submit "Enregistrer", class: "w-full py-3 px-4 text-sm font-semibold rounded-lg text-white bg-[#C8102E] hover:bg-[#FFB200] transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FFB200]" %>
+  </div>
+<% end %>

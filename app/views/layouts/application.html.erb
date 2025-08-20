@@ -19,11 +19,22 @@
       <main class="min-h-screen flex items-center justify-center bg-gray-100">
         <div class="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
           <%= render "shared/flash" %>
-          <%= yield %>
+          <div class="flex justify-end mb-2">
+            <%= render 'shared/language_switcher' %>
+          </div>
+    <% if user_signed_in? && (current_user.has_role?(:admin) || current_user.has_role?(:super_admin)) %>
+      <div class="text-end mb-2">
+        <%= link_to 'Accès Admin', admin_dashboard_path, class: 'btn btn-outline-primary' %>
+      </div>
+    <% end %>
+    <%= yield %>
         </div>
       </main>
     <% else %>
       <div data-controller="sidebar" class="min-h-screen bg-gray-100">
+        <div class="flex justify-end p-2">
+          <%= render 'shared/language_switcher' %>
+        </div>
         <%= render "shared/flash" %>
         <!-- Sidebar backdrop -->
         <div

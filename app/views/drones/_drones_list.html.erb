@@ -1,0 +1,18 @@
+<table class="min-w-full">
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Date de création</th>
+      <!-- autres colonnes -->
+    </tr>
+  </thead>
+  <tbody>
+    <% drones.each do |drone| %>
+      <tr>
+        <td><%= drone.nom %></td>
+        <td><%= l(drone.created_at, format: :short) %></td>
+        <!-- autres colonnes -->
+      </tr>
+    <% end %>
+  </tbody>
+</table>
